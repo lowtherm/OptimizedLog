@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class TestHarness
+public class Driver
 {
     public static void main(String[] args)
     {

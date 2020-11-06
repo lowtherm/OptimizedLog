@@ -5,6 +5,7 @@ public class OptimizedLog<E> implements Collection<E>
     private int size;
     private ListItem<E> firstItem;
     private ListItem<E> lastItem;
+    public boolean flag = false;
 
     /**
      * This is a method used to overwrite the to string method to provide an actual 
@@ -24,7 +25,7 @@ public class OptimizedLog<E> implements Collection<E>
                 if(toCheck.getnoOfEntries()>1)
                 {
                     dataToOutput = dataToOutput + "\n" + "[" + toCheck.getDateAdded() + " - "
-                    +toCheck.getDateAdded() +"][" +
+                    +toCheck.getRecentDate() +"][" +
                     toCheck.getnoOfEntries() + " TIMES]: "+ toCheck.getData();
                     toCheck = toCheck.getNext();
                 }
@@ -82,12 +83,21 @@ public class OptimizedLog<E> implements Collection<E>
         }
         if (size() > 0) 
         {
-            ListItem<E> prev = lastItem;
-            lastItem = new ListItem<E>(newItem, null);
-            prev.setNext(lastItem);
-            this.contains(lastItem);
-            size++;
-            return true;
+            this.check(newItem);
+            if(flag == false)
+            {
+                ListItem<E> prev = lastItem;
+                lastItem = new ListItem<E>(newItem, null);
+                prev.setNext(lastItem);
+                size++;
+                return true;
+            }
+            else
+            {
+             flag = false;
+             return true;  
+            }
+            
         }
         else
         {
@@ -98,19 +108,22 @@ public class OptimizedLog<E> implements Collection<E>
         }
     }
 
-    @Override
-    public void contains(ListItem<E> item)
+    /**
+     * 
+     * @param item The item that we are checking to see if it is already in the list.
+     */
+    public void check(E item)
         {
             ListItem<E> toCheck = firstItem;
-            while(toCheck.getNext() != null)
+            while(toCheck != null)
             {
-                if (toCheck.getData() == item.getData())
+                if (toCheck.getData() == item)
                 {
-                    item.changenoOfEntries(1);
+                    toCheck.changenoOfEntries(1);
+                    flag = true;
                 }
                 toCheck = toCheck.getNext();     
             }
-            
         }
 
 
@@ -126,11 +139,11 @@ public class OptimizedLog<E> implements Collection<E>
 
 
 
-
-
     //**************************************************
     //***THE FOLLOWING ARE NOT REQUIRED FOR THE TASK.***
     //**************************************************
+
+
 
     /** 
      * Adds all elements specified to the data structure.
@@ -235,6 +248,14 @@ public class OptimizedLog<E> implements Collection<E>
     {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    /**
+    * Method that is not used in this exercise
+    */
+    @Override
+    public boolean contains(Object o) {
+        throw new UnsupportedOperationException("Unable to contains");
     }
 
 

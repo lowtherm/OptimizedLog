@@ -6,6 +6,7 @@ public class ListItem<E>
     private ListItem<E> next;
     private Date dateAdded;
     private int noOfEntries = 1;
+    private Date recentDate;
     
     /**
      * Constructor of the class ListItem, creating a single list item with data and pointer to next element
@@ -17,6 +18,7 @@ public class ListItem<E>
         this.data = data;
         this.next = next;
         dateAdded = Calendar.getInstance().getTime();
+        recentDate = dateAdded;
     }
     
 
@@ -47,6 +49,11 @@ public class ListItem<E>
         return dateAdded;
     }
 
+    public Date getRecentDate()
+    {
+       return recentDate;
+    }
+
     /**
      * Get method for noOfEntries
      * @return noOfEntries
@@ -66,6 +73,15 @@ public class ListItem<E>
     }
 
     /**
+     * set method for data
+     * @param data set it with the daa of the ListItem
+     */
+    public void setRecentDate()
+    {
+        recentDate = Calendar.getInstance().getTime();
+    }
+
+    /**
     * A set method for the next ListItem
     * @param next set the param with the next ListItem
     */
@@ -80,5 +96,6 @@ public class ListItem<E>
     public void changenoOfEntries(int numToChangeBy)
     {
         noOfEntries = noOfEntries + numToChangeBy;
+        setRecentDate();
     }
 }
