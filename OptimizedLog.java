@@ -22,17 +22,15 @@ public class OptimizedLog<E> implements Collection<E>
        
             while(toCheck != null)
             {
-                if(toCheck.getnoOfEntries()>1)
+                if(toCheck.GetnoOfEntries()>1)
                 {
-                    dataToOutput = dataToOutput + "\n" + "[" + toCheck.getDateAdded() + " - "
-                    +toCheck.getRecentDate() +"][" +
-                    toCheck.getnoOfEntries() + " TIMES]: "+ toCheck.getData();
-                    toCheck = toCheck.getNext();
+                    dataToOutput = dataToOutput + "\n" + "[" + toCheck.GetDateAdded() + " - " + toCheck.GetRecentDate() +"][" + toCheck.GetnoOfEntries() + " TIMES]: "+ toCheck.GetData();
+                    toCheck = toCheck.GetNext();
                 }
                 else
                 {
-                    dataToOutput = dataToOutput + "\n" + "[" + toCheck.getDateAdded()+ "]: " + toCheck.getData();
-                    toCheck = toCheck.getNext();
+                    dataToOutput = dataToOutput + "\n" + "[" + toCheck.GetDateAdded()+ "]: " + toCheck.GetData();
+                    toCheck = toCheck.GetNext();
                 }
                      
             }
@@ -52,6 +50,15 @@ public class OptimizedLog<E> implements Collection<E>
     }
 
     /**
+     * Used to return the first item in the linked list.
+     * @return The first item in the linked list.
+     */
+    public ListItem<E> GetFirstItem()
+    {
+        return firstItem;
+    }
+
+    /**
      * Used to show whether the data structure is empty or not.
      * @return True if the data structure is empty, false otherwise.
      */
@@ -60,18 +67,19 @@ public class OptimizedLog<E> implements Collection<E>
     {
         if (size == 0)
         {
-         return true;   
+            return true;   
         }
         else
         {
-         return false;   
+            return false;   
         }
     }
 
     /**
-     * Adds an element to the data structure.
+     * Adds an element to the data structure if that element isn't already in it.
+     * If the element is already in the data structure it increments its number of entries using the check method.
      * 
-     * @param arg0 element to be added to the data structure.
+     * @param newItem element to be added to the data structure.
      * @return true if the element was added, false if not.
      */
     @Override
@@ -79,7 +87,7 @@ public class OptimizedLog<E> implements Collection<E>
     {
         if (newItem == null)
         { 
-            throw new NullPointerException("Argument for this new item is null."); 
+            throw new NullPointerException("Argument for this new item is null.");
         }
         if (size() > 0) 
         {
@@ -88,14 +96,14 @@ public class OptimizedLog<E> implements Collection<E>
             {
                 ListItem<E> prev = lastItem;
                 lastItem = new ListItem<E>(newItem, null);
-                prev.setNext(lastItem);
+                prev.SetNext(lastItem);
                 size++;
                 return true;
             }
             else
             {
-             flag = false;
-             return true;  
+                flag = false;
+                return true;  
             }
             
         }
@@ -109,7 +117,7 @@ public class OptimizedLog<E> implements Collection<E>
     }
 
     /**
-     * 
+     * Checks to see if the item is already in the list so we can increment its number of entries and not add it to the list again.
      * @param item The item that we are checking to see if it is already in the list.
      */
     public void check(E item)
@@ -117,24 +125,24 @@ public class OptimizedLog<E> implements Collection<E>
             ListItem<E> toCheck = firstItem;
             while(toCheck != null)
             {
-                if (toCheck.getData() == item)
+                if (toCheck.GetData() == item)
                 {
-                    toCheck.changenoOfEntries(1);
+                    toCheck.ChangenoOfEntries(1);
                     flag = true;
                 }
-                toCheck = toCheck.getNext();     
+                toCheck = toCheck.GetNext();     
             }
         }
 
 
     /**
-     * 
+     * This can be used to iterate through the list for an alternate method of output.
+     * @return a new list iterator for this list.
      */
     @Override
     public Iterator<E> iterator() 
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new ListIterator<>(this);
     }
 
 

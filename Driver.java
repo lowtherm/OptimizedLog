@@ -1,5 +1,8 @@
 import java.util.*;
 
+/**
+ * The driver class used to test functionality of the Linked list.
+ */
 public class Driver
 {
     public static void main(String[] args)
@@ -11,5 +14,6 @@ public class Driver
         log.add("SPAM...");
         log.add("SPAM...");
         System.out.println(log);
+
     }
 }
