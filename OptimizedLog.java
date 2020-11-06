@@ -3,6 +3,41 @@ import java.util.*;
 public class OptimizedLog<E> implements Collection<E>
 {
     private int size;
+    private ListItem<E> firstItem;
+    private ListItem<E> lastItem;
+
+    /**
+     * This is a method used to overwrite the to string method to provide an actual 
+     * string of all items in the linked list instead of just an address.
+     * @return It returns a string containing all elements of the list in the format required.
+     */
+    @Override
+    public String toString() 
+    {
+        String dataToOutput = "";
+        if(firstItem != null)
+        {
+            ListItem<E> toCheck = firstItem;
+       
+            while(toCheck != null)
+            {
+                if(toCheck.getnoOfEntries()>1)
+                {
+                    dataToOutput = dataToOutput + "\n" + "[" + toCheck.getDateAdded() + " - "
+                    +toCheck.getDateAdded() +"][" +
+                    toCheck.getnoOfEntries() + " TIMES]: "+ toCheck.getData();
+                    toCheck = toCheck.getNext();
+                }
+                else
+                {
+                    dataToOutput = dataToOutput + "\n" + "[" + toCheck.getDateAdded()+ "]: " + toCheck.getData();
+                    toCheck = toCheck.getNext();
+                }
+                     
+            }
+        }
+        return (dataToOutput);
+    }
  
     
     /**
@@ -39,12 +74,63 @@ public class OptimizedLog<E> implements Collection<E>
      * @return true if the element was added, false if not.
      */
     @Override
-    public boolean add(E arg0) 
+    public boolean add(E newItem) 
     {
-        // TODO Auto-generated method stub
-        return false;
+        if (newItem == null)
+        { 
+            throw new NullPointerException("Argument for this new item is null."); 
+        }
+        if (size() > 0) 
+        {
+            ListItem<E> prev = lastItem;
+            lastItem = new ListItem<E>(newItem, null);
+            prev.setNext(lastItem);
+            this.contains(lastItem);
+            size++;
+            return true;
+        }
+        else
+        {
+            lastItem = new ListItem<E>(newItem, null);
+            firstItem = lastItem;
+            size++;
+            return true;
+        }
     }
 
+    @Override
+    public void contains(ListItem<E> item)
+        {
+            ListItem<E> toCheck = firstItem;
+            while(toCheck.getNext() != null)
+            {
+                if (toCheck.getData() == item.getData())
+                {
+                    item.changenoOfEntries(1);
+                }
+                toCheck = toCheck.getNext();     
+            }
+            
+        }
+
+
+    /**
+     * 
+     */
+    @Override
+    public Iterator<E> iterator() 
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+
+
+
+    //**************************************************
+    //***THE FOLLOWING ARE NOT REQUIRED FOR THE TASK.***
+    //**************************************************
 
     /** 
      * Adds all elements specified to the data structure.
@@ -61,32 +147,6 @@ public class OptimizedLog<E> implements Collection<E>
 
 
     /**
-     * Empties the data structure of all elements.
-     * 
-     */
-    @Override
-    public void clear() 
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-
-    /**
-     * Checks if an object is contained within the data structure.
-     * 
-     * @param arg0 The object that we are looking to find.
-     * @return true if the object is contained within the data structure, false otherwise.
-     */
-    @Override
-    public boolean contains(Object arg0) 
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-
-    /**
      * Checks if a collection of objects are contained within the data structure.
      * 
      * @param arg0 The collection of objects we are looking for.
@@ -94,44 +154,6 @@ public class OptimizedLog<E> implements Collection<E>
      */
     @Override
     public boolean containsAll(Collection<?> arg0) 
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-
-    /**
-     * 
-     */
-    @Override
-    public Iterator<E> iterator() 
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /**
-     * Removes the specified object from the data structure.
-     * 
-     * @param arg0 The object to be removed.
-     * @return True if the object is removed, false otherwise.
-     */
-    @Override
-    public boolean remove(Object arg0)
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-
-    /**
-     * Removes a collection of objects from the data structure.
-     * 
-     * @param arg0 The collection of objects to be removed.
-     * @return True if they are removed from the data structure, false otherwise.
-     */
-    @Override
-    public boolean removeAll(Collection<?> arg0) 
     {
         // TODO Auto-generated method stub
         return false;
@@ -175,6 +197,44 @@ public class OptimizedLog<E> implements Collection<E>
     {
         // TODO Auto-generated method stub
         return null;
+    }
+
+
+    /**
+     * Empties the data structure of all elements.
+     * 
+     */
+    @Override
+    public void clear() 
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    /**
+     * Removes a collection of objects from the data structure.
+     * 
+     * @param arg0 The collection of objects to be removed.
+     * @return True if they are removed from the data structure, false otherwise.
+     */
+    @Override
+    public boolean removeAll(Collection<?> arg0) 
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+     /**
+     * Removes the specified object from the data structure.
+     * 
+     * @param arg0 The object to be removed.
+     * @return True if the object is removed, false otherwise.
+     */
+    @Override
+    public boolean remove(Object arg0)
+    {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 
